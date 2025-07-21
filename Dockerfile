@@ -1,22 +1,27 @@
 # ===== Build Stage =====
-FROM maven:3.9.6-eclipse-temurin-17 AS build
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+
 WORKDIR /app
 
-# Copy source code
-COPY . .
+# Copy pom and source files
+COPY pom.xml .
+RUN mvn dependency:go-offline
 
-# Build the project and skip tests
+COPY src ./src
+
+# Build and package the app
 RUN mvn clean package -DskipTests
 
 # ===== Run Stage =====
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:21-jdk
+
 WORKDIR /app
 
-# Copy the built jar from previous stage
+# Copy the built jar from the build stage
 COPY --from=build /app/target/*.jar app.jar
 
-# Expose port
+# Expose the port
 EXPOSE 8080
 
-# Run the app
+# Run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
