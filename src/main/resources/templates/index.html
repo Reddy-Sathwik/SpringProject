@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Student</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-8">
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+    <h2 class="text-xl font-bold mb-4">Add Student</h2>
+    <form th:action="@{/addStudent}" method="post" th:object="${student}" class="space-y-4">
+        <input type="text" th:field="*{name}" placeholder="Name" class="w-full p-2 border rounded" required />
+        <input type="email" th:field="*{email}" placeholder="Email" class="w-full p-2 border rounded" required />
+        <input type="text" th:field="*{department}" placeholder="Department" class="w-full p-2 border rounded" required />
+        <button type="submit" class="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600">Submit</button>
+    </form>
+    <a href="/students" class="block text-center mt-4 text-blue-600 hover:underline">View All Students</a>
+</div>
+</body>
+</html>
